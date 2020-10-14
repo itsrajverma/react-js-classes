@@ -3,7 +3,13 @@ import React from "react";
 import { Container,ListGroup,ListGroupItem,Button,Card,CardBody,CardHeader,CardFooter,Row,Col } from "reactstrap"
 
 
-const Cart = ({cartItem}) => {
+const Cart = ({cartItem,removeItem,payNow}) => {
+
+    let amount = 0;
+
+    cartItem.forEach((item)=>{
+        amount = parseFloat(amount) + parseFloat(item.price);
+    })
 
     return(
         <Container fluid>
@@ -22,12 +28,27 @@ const Cart = ({cartItem}) => {
                                 </div>
                                 <span>Price : Rs. { item.price }</span>
 
-                                <Button color="danger">Remove</Button>
+                                <Button onClick={()=> removeItem(item) } color="danger">Remove</Button>
                             </Col>
                         </Row>
                     </ListGroupItem>
                 )) }
             </ListGroup>
+
+
+            {
+                cartItem.length >= 1 ? (
+                    <Card className="text-center mt-3">
+                        <CardHeader>Grand Total</CardHeader>
+                        <CardBody>
+                            Your amount for {cartItem.length} product is {amount}
+                        </CardBody>
+                        <CardFooter>
+                            <Button color="success" onClick={payNow} >Pay Now</Button>
+                        </CardFooter>
+                    </Card>
+                ) : ( <h3 className="text-warning">Cart is Empty</h3>)
+            }
 
         </Container>
     )

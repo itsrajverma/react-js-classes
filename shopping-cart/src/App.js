@@ -14,7 +14,35 @@ const App = () => {
 
 
     const addToCart = item => {
+
+        const isAlreadyAdded = cartItem.findIndex((citem)=>{
+            return citem.id == item.id;
+        })
+
+        console.log(isAlreadyAdded);
+
+        if(isAlreadyAdded !== -1){
+            toast("Item is Already Added in cart",{
+                type:"error"
+            })
+           return ;
+        }
+
+
         setCartItem([...cartItem,item])
+    }
+
+    const removeItem = item => {
+        let result = cartItem.filter(singleItem => singleItem.id !== item.id);
+        setCartItem(result);
+    }
+
+    const payNow = () => {
+        setCartItem([]);
+
+        toast("Purchase Complete",{
+            type:"success"
+        })
     }
 
     return(
@@ -26,7 +54,7 @@ const App = () => {
                     <BuyPage addToCart={addToCart}/>
                 </Col>
                 <Col md={4}>
-                    <Cart cartItem={cartItem}/>
+                    <Cart removeItem={removeItem} payNow={payNow} cartItem={cartItem}/>
                 </Col>
             </Row>
         </Container>
