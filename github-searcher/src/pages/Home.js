@@ -1,8 +1,25 @@
 import React from "react";
 
+import { Row,Container,Col,Input,Button,InputGroup,InputGroupAddon } from "reactstrap"
+
 const Home = () =>{
     return(
-        <h1>Home Page</h1>
+        <Container>
+            <Row className="mt-3">
+                <Col md={5}>
+                    <InputGroup>
+                        <Input type="text" placeholder="Enter username"/>
+
+                        <InputGroupAddon addonType="append">
+                            <Button color="primary">
+                                Fetch User
+                            </Button>
+                        </InputGroupAddon>
+
+                    </InputGroup>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 
