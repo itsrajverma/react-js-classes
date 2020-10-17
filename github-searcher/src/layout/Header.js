@@ -1,11 +1,15 @@
-import React,{useState} from "react";
+import React, {useContext, useState} from "react";
 import {
     Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavLink,NavItem,NavbarText
 } from "reactstrap"
 
 import { Link } from "react-router-dom"
 
+import { UserContext } from "../context/UserContext";
+
 const Header = () => {
+
+    const context = useContext(UserContext);
 
     const [isOpen,setIsOpen] = useState(false);
 
@@ -16,21 +20,35 @@ const Header = () => {
            <NavbarBrand>
                <Link to="/" className="text-white" >GITHUB SEARCHER</Link>
            </NavbarBrand>
+           <NavbarText className="text-white">
+               { context.user?.email ? context.user.email : "" }
+           </NavbarText>
            <NavbarToggler onClick={toggle}/>
                <Collapse isOpen={isOpen} navbar>
                    <Nav className="ml-auto" navbar>
-                       <NavItem>
-                           <NavLink tag={Link} to="/signin" className="text-white">
-                               Sign In
-                           </NavLink>
-                       </NavItem>
 
-                       <NavItem>
-                           <NavLink tag={Link} to="/signup" className="text-white">
+                       { context.user ? (
+                           <NavItem>
+                               <NavLink onClick={()=> context.setUser(null) } className="text-white">
+                                  Log Out
+                               </NavLink>
+                           </NavItem>
+                       ) : (
+                           <>
+                           <NavItem>
+                               <NavLink tag={Link} to="/signin" className="text-white">
+                                   Sign In
+                               </NavLink>
+                           </NavItem>
+
+                           <NavItem>
+                               <NavLink tag={Link} to="/signup" className="text-white">
                                Sign Up
-                           </NavLink>
-                       </NavItem>
-                   </Nav>
+                               </NavLink>
+                           </NavItem>
+                           </>
+                       ) }
+                     </Nav>
                </Collapse>
        </Navbar>
     )
