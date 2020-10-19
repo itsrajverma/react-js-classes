@@ -17,7 +17,7 @@ const Signin = () =>{
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
 
-    const handleSignUp = (e) => {
+    const handleSignIn = (e) => {
         e.preventDefault();
 
         if(!email){
@@ -61,7 +61,7 @@ const Signin = () =>{
             <Row>
                 <Col lg={6} className="offset-lg-3 mt-5">
                     <Card>
-                        <Form onSubmit={handleSignUp}>
+                        <Form onSubmit={handleSignIn}>
                             <CardHeader>Sign In Here</CardHeader>
                             <CardBody>
                                 <FormGroup row>

@@ -37,7 +37,7 @@ const Signup = () =>{
         }
 
         if(!password){
-            toast("Please Enter Your EPassword",{
+            toast("Please Enter Your Password",{
                 type:"error"
             })
             return
