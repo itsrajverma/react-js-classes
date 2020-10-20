@@ -8,6 +8,7 @@ import { UserContext } from "../context/UserContext";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
 import UserCard from "../components/UserCard";
+import Repos from "../components/Repos";
 
 const Home = () =>{
 
@@ -44,6 +45,11 @@ const Home = () =>{
                     { user ? <UserCard user={user} /> : null }
 
                 </Col>
+
+                <Col md={7}>
+                    { user ? <Repos repos_url={user.repos_url} /> : null }
+                </Col>
+
             </Row>
         </Container>
     )
