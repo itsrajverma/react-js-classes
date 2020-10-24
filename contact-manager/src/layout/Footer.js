@@ -1,8 +1,11 @@
 import React from 'react';
 
+
 const Footer = () => {
     return(
-        <h1>Footer</h1>
+        <footer className="bg-primary text-white text-center pt-3 pb-2 mt-5 fixed-bottom">
+            A Simple Contact App with Firebase
+        </footer>
     )
 }
 
