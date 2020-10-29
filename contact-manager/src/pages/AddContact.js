@@ -6,6 +6,10 @@ import { Container,Form,FormGroup,Label,Input,Button,Spinner,Row,Col } from "rea
 import {ContactContext} from "../context/Context";
 import {toast} from "react-toastify";
 
+import { useHistory } from "react-router-dom";
+
+import { v4 } from "uuid";
+
 const AddContact = () => {
 
     const { state,dispatch } = useContext(ContactContext)
@@ -13,7 +17,15 @@ const AddContact = () => {
     const [downloadUrl,setDownloadUrl] = useState(null);
     const [isUploading,setIsUploading] = useState(false);
 
+    const [name,setName] = useState("");
+    const [email,setEmail] = useState("");
+    const [phoneNumber,setPhoneNumber] = useState("");
+    const [address,setAddress] = useState("");
+    const [star,setStar] = useState(false);
 
+
+
+    const history = useHistory();
     // function to upload image to firsestore
 
     const imagePicker = async e =>{
@@ -70,11 +82,38 @@ const AddContact = () => {
         }
     }
 
+    const addContact = async () => {
+        try {
+            firebase.database().ref("contacts/" + v4()).set({
+                name,email,phoneNumber,address,star,picture : downloadUrl
+            });
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const updateContact = async () => {
+
+    }
+
+
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        addContact();
+
+        toast("Success",{ type : "success" });
+
+        history.push("/");
+    }
+
     return(
         <Container fluid className="mt-5">
             <Row>
                 <Col md={6} className="offset-md-3 p-2">
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
 
                         <div className="text-center">
                             <div>
@@ -94,24 +133,26 @@ const AddContact = () => {
                         </div>
 
                         <FormGroup>
-                            <Input type="text" name="name" id="name" placeholder="Enter your name" />
+                            <Input type="text" name="name" id="name" value={name} onChange={e => setName(e.target.value )} placeholder="Enter your name" />
                         </FormGroup>
 
                         <FormGroup>
-                            <Input type="email" name="email" id="email" placeholder="Enter your email" />
+                            <Input type="email" name="email" id="email"  value={email} onChange={e => setEmail(e.target.value )}  placeholder="Enter your email" />
                         </FormGroup>
 
                         <FormGroup>
-                            <Input type="number" name="number" id="number" placeholder="Enter your number" />
+                            <Input type="number" name="number" id="number"  value={phoneNumber} onChange={e => setPhoneNumber(e.target.value )}  placeholder="Enter your number" />
                         </FormGroup>
 
                         <FormGroup>
-                            <Input type="textarea" name="area" id="area" placeholder="Enter your address" />
+                            <Input type="textarea" name="area" id="area"  value={address} onChange={e => setAddress(e.target.value )}  placeholder="Enter your address" />
                         </FormGroup>
 
                         <FormGroup check>
                             <Label check>
-                                <Input type="checkbox" />
+                                <Input type="checkbox" checked={star} onChange={()=>{
+                                    setStar(!star)
+                                }} />
                                 <span className="text-right">Mark as Star</span>
                             </Label>
                         </FormGroup>
