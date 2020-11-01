@@ -30,3 +30,11 @@
     width: 120px;
     border:2px solid rgba(0,0,0,0.2);
 }
+
+.center{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

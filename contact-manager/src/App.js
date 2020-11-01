@@ -32,7 +32,8 @@ firebase.initializeApp(firebaseConfig);
 
 
 const initialState = {
-    isLoading : false
+    isLoading : false,
+    contacts : []
 }
 
 
@@ -41,6 +42,35 @@ const initialState = {
 const App = () => {
 
     const [state,dispatch] = useReducer(reducer,initialState);
+
+    const getContacts = async () => {
+        dispatch({
+            type : SET_LOADING,
+            payload : true
+        })
+
+        const contactsRef =  await firebase.database().ref("/contacts");
+        contactsRef.on("value",snapshot=>{
+
+            dispatch({
+                type : SET_CONTACT,
+                payload : snapshot.val()
+            })
+
+            dispatch({
+                type : SET_LOADING,
+                payload : false
+            })
+
+
+        })
+
+
+    }
+
+    useEffect(()=>{
+        getContacts();
+    },[])
 
     return(
         <BrowserRouter>
