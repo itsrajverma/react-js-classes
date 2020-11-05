@@ -1,14 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Col, Row} from "reactstrap"
 import {FaRegStar, FaStar} from "react-icons/fa";
 import {MdDelete, MdEdit} from "react-icons/md";
 
 import firebase from "firebase/app";
 import {toast} from "react-toastify";
-
+import {ContactContext} from "../context/Context";
+import {CONTACT_TO_UPDATE} from "../context/action.types";
+import { useHistory } from "react-router-dom"
 
 const Contact = ({contact, contactKey}) => {
 
+    const { dispatch } = useContext(ContactContext);
+
+    const history = useHistory();
+
+    // function to delete the contact from database
     const deleteContact = () => {
         firebase
             .database()
@@ -19,6 +26,7 @@ const Contact = ({contact, contactKey}) => {
             }).catch(err => console.log(err))
     }
 
+    // function to update contact(star) in firebase
     const updateImpContact = () => {
         firebase
             .database()
@@ -29,6 +37,21 @@ const Contact = ({contact, contactKey}) => {
             .then(() => {
                 toast("Updated Successfully...", {type: "info"});
             }).catch(err => console.log(err))
+    }
+
+
+    // function to set update action in reducer
+    const updateContact = () =>{
+
+        dispatch({
+            type : CONTACT_TO_UPDATE,
+            payload : contact,
+            key : contactKey
+        })
+
+        history.push("/contact/add")
+
+
     }
 
 
@@ -57,7 +80,7 @@ const Contact = ({contact, contactKey}) => {
 
             <Col md={1} className="d-flex justify-content-center align-items-center">
                 <MdDelete onClick={()=> deleteContact() } color="danger" className="text-danger icon"/>
-                <MdEdit color="info" className="text-info icon ml-2"/>
+                <MdEdit color="info" onClick={()=> updateContact() } className="text-info icon ml-2"/>
             </Col>
 
         </Row>
