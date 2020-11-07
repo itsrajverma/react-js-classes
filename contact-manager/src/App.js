@@ -26,6 +26,7 @@ import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import Contacts from "./pages/Contacts";
 import AddContact from "./pages/AddContact";
+import ViewContact from "./pages/ViewContact";
 
 
 firebase.initializeApp(firebaseConfig);
@@ -81,6 +82,7 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={Contacts} />
                         <Route exact path="/contact/add" component={AddContact} />
+                        <Route exact path="/contact/view" component={ViewContact} />
                     </Switch>
                 </Container>
                 <Footer/>

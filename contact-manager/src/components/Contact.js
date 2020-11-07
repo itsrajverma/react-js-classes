@@ -6,7 +6,7 @@ import {MdDelete, MdEdit} from "react-icons/md";
 import firebase from "firebase/app";
 import {toast} from "react-toastify";
 import {ContactContext} from "../context/Context";
-import {CONTACT_TO_UPDATE} from "../context/action.types";
+import {CONTACT_TO_UPDATE, SET_SINGLE_CONTACT} from "../context/action.types";
 import { useHistory } from "react-router-dom"
 
 const Contact = ({contact, contactKey}) => {
@@ -55,6 +55,19 @@ const Contact = ({contact, contactKey}) => {
     }
 
 
+    // function to view contact detail
+
+    const viewSingleContact = contact => {
+
+        dispatch({
+            type : SET_SINGLE_CONTACT,
+            payload : contact
+        })
+
+        history.push("/contact/view");
+    }
+
+
     return (
         <Row>
             <Col md={1} className="d-flex justify-content-center align-items-center">
@@ -71,7 +84,7 @@ const Contact = ({contact, contactKey}) => {
                 <img src={contact.picture} alt="" className="img-circle profile"/>
             </Col>
 
-            <Col md={8}>
+            <Col md={8} onClick={()=>viewSingleContact(contact)}>
                 <div className="text-primary">{contact.name}</div>
                 <div className="text-secondary">{contact.phoneNumber}</div>
                 <div className="text-success">{contact.email}</div>
